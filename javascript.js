@@ -36,53 +36,90 @@ if playerSelection equals scissors and computerSelection equals to paper
             return player wins
 else the computer wins;
 */
-
-function playRound(playerSelection, computerSelection){
-    playerSelection = playerSelection.toLowerCase();
-    if(playerSelection == computerSelection){
-        console.log("Ultimate Showdown! It's a draw!");
-    }
-    else if(playerSelection == 'rock' && computerSelection == 'scissors'){
-        console.log('You win! Rock beats scissors!');
-        return playerScore++;
-    }
-    else if(playerSelection == 'paper' && computerSelection == 'rock'){
-        console.log('You win! Paper beats rock!')
-        return playerScore++;
-    }
-    else if(playerSelection == 'scissors' && computerSelection == 'paper'){
-        console.log("You win! Scissors beat Paper!");
-        return playerScore++;
-    }
-    else{
-        console.log(`You lose! ${playerSelection} does not beat ${computerSelection}!`);
-        return computerScore++;
-    }
-}
-
-/*
-create function game();
-create variable to count player score and pc score;
-loop 5 times and play round until winner can be declared
-*/
-
 let playerScore = 0;
 let computerScore = 0; 
 
-function game(){
-    console.log('May the 5 rounds begin! It is time to show your worth!');
-    for (let i=0; i < 5; i++) {
-        playerSelection = prompt('What will you choose now?');
-        playRound(playerSelection, getComputerChoice());
+function playRound(playerSelection, computerSelection){
+        if (playerScore < 5 && computerScore < 5){
+
+            playerSelection = playerSelection.toLowerCase();
+
+            if(playerSelection == computerSelection){
+                document.getElementById('result').textContent = "Ultimate Showdown! It's a draw!"
+        }
+            else if(playerSelection == 'rock' && computerSelection == 'scissors'){
+                document.getElementById('result').textContent = "You win! Rock beats scissors!"
+                playerScore++;
+                plyScore.textContent = `Player Score: ${playerScore}`;
+        }
+            else if(playerSelection == 'paper' && computerSelection == 'rock'){
+                document.getElementById('result').textContent = "You win! Paper beats rock!"
+                playerScore++;
+                plyScore.textContent = `Player Score: ${playerScore}`;
+        }
+            else if(playerSelection == 'scissors' && computerSelection == 'paper'){
+                document.getElementById('result').textContent = "You win! Scissors beat Paper!"
+                playerScore++;
+                plyScore.textContent = `Player Score: ${playerScore}`;
+        }
+            else {
+                document.getElementById('result').textContent = `You lose! ${playerSelection} does not beat ${computerSelection}!`;
+                computerScore++;
+                CPScore.textContent = `Computer Score: ${computerScore}`;
+        }
+        
+        }
+        if (playerScore === 5 || computerScore === 5){
+            if (playerScore === 5){
+                document.getElementById('result').textContent = "Player wins!";
+            }
+            else {
+                document.getElementById('result').textContent = "AI wins!";
+            }
+            playerScore = 0;
+            computerScore = 0;
+            plyScore.textContent = `Player Score: ${playerScore}`;
+            CPScore.textContent = `Computer Score: ${computerScore}`;
+        }
     }
-    if (playerScore > computerScore){
-        console.log(`GAME OVER! It is the Player who wins with a score of ${playerScore}-${computerScore}!`);
-    }
-    else if (playerScore < computerScore){
-        console.log(`GAME OVER! You lose.. decisive victory by AI ${computerScore}-${playerScore}!`);
-    }
-    else {
-        console.log(`Fierce game! ${playerScore}-${computerScore}, it's a draw!`);
-    }
-}
-game();
+
+
+
+const rock = document.createElement('button');
+rock.textContent = 'Rock';
+document.body.appendChild(rock);
+
+const paper = document.createElement('button');
+paper.textContent = 'Paper';
+document.body.appendChild(paper);
+
+const scissors = document.createElement('button');
+scissors.textContent = 'Scissors';
+document.body.appendChild(scissors);
+
+rock.addEventListener('click', () => {
+    playRound('rock', getComputerChoice());
+})
+
+paper.addEventListener('click', () => {
+    playRound('paper', getComputerChoice());
+})
+
+scissors.addEventListener('click', () => {
+    playRound('scissors', getComputerChoice());
+})
+
+const div = document.createElement('div');
+div.id = 'result';
+div.textContent = 'None yet';
+document.body.appendChild(div);
+
+const plyScore = document.createElement('div');
+plyScore.id = 'playerScore';
+plyScore.textContent = `Player Score: ${playerScore}`;
+document.body.appendChild(plyScore);
+
+const CPScore = document.createElement('div');
+CPScore.id = 'ComputerScore';
+CPScore.textContent = `Computer Score: ${computerScore}`;
+document.body.appendChild(CPScore);
